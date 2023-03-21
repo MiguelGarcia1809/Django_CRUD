@@ -1,0 +1,42 @@
+{% extends 'layouts/template.html' %}
+
+{% block content %}
+
+    <h1 class='my-3'>Lista de Tareas</h1>
+
+    <a class="mb-3 btn btn-success" href="{% url 'agregar_tarea' %}" role="button">Agregar Tarea</a>
+
+    <div class="table-responsive">
+        <table class="table table-hover table-light table-primary text-center align-middle">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nombre de la tarea</th>
+                    <th scope="col">Descripcion de la tarea</th>
+                    <th scope="col">Curso y Profesor</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for tarea in tareas %}
+                    <tr class="">
+                        <td scope="row">{{ tarea.id }}</td>
+                        <td>{{ tarea.nombre_tarea }}</td>
+                        <td>{{ tarea.descrip_tarea }}</td>
+                        <td>{{ tarea.curso_profesor|join:' ' }}</td>
+                        <td>
+                            <a class="btn btn-warning" href="{% url 'editar_tarea' tarea.id %}" role="button">Editar</a>
+
+                            <form action="{% url 'borrar_tarea' tarea.id %}" method="post" class="d-inline">
+                                {% csrf_token %}
+                                <button class="btn btn-danger" onclick='return confirm("¿Esta seguro de querer borrar el registro?")'>Borrar</button>
+                            </form>
+                        </td>
+                        
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

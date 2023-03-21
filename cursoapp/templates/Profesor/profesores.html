@@ -1,0 +1,39 @@
+{% extends 'layouts/template.html' %}
+
+{% block content %}
+
+    <h1 class='my-3'>Lista de Profesores</h1>
+
+    <a class="mb-3 btn btn-success" href="{% url 'agregar_profesor' %}" role="button">Agregar Profesor</a>
+
+    <div class="table-responsive" >
+        <table class="table table-hover table-light text-center align-middle">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nombre(s) del profesor</th>
+                    <th scope="col">Apellido(s) del profesor</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for profesor in profesores %}
+                    <tr class="">
+                        <td scope="row">{{ profesor.id }}</td>
+                        <td>{{ profesor.nombre_profesor }}</td>
+                        <td>{{ profesor.apellido_profesor }}</td>
+                        <td>
+                            <a class="btn btn-warning" href="{% url 'editar_profesor' profesor.id %}" role="button">Editar</a>
+                            <form action="{% url 'borrar_profesor' profesor.id %}" method="post" class="d-inline">
+                                {% csrf_token %}
+                                <button class="btn btn-danger" onclick='return confirm("¿Esta seguro de querer borrar el registro?")'>Borrar</button>
+                            </form>
+                        </td>
+                        
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

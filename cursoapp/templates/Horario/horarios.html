@@ -1,0 +1,40 @@
+{% extends 'layouts/template.html' %}
+
+{% block content %}
+
+    <h1 class='my-3'>Lista de Horarios</h1>
+
+    <a class="mb-3 btn btn-success" href="{% url 'agregar_horario' %}" role="button">Agregar Horario</a>
+
+    <div class="table-responsive">
+        <table class="table table-hover table-light table-primary text-center align-middle">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nombre del curso</th>
+                    <th scope="col">Nombre del profesor</th>
+                    <th scope="col">Horario</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for horario in horarios %}
+                    <tr class="">
+                        <td scope="row">{{ horario.id }}</td>
+                        <td>{{ horario.curso.nombre_curso }}</td>
+                        <td>{{ horario.profesor|join:' ' }}</td>
+                        <td>{{ horario.horario }}</td>
+                        <td>
+                            <a class="btn btn-warning" href="{% url 'editar_horario' horario.id %}" role="button">Editar</a>
+                            <form action="{% url 'borrar_horario' horario.id %}" method="post" class="d-inline">
+                                {% csrf_token %}
+                                <button class="btn btn-danger" onclick='return confirm("¿Esta seguro de querer borrar el registro?")'>Borrar</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}
